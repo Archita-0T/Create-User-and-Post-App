@@ -27,13 +27,18 @@
                     <h4 class="text-blue-500 mb-2">@<%=user.username%></h4>
                     <p class="text-sm tracking-tight"><%=post.content%></p>
                     <small class="mt-4 inline-block"><%= post.likes.length %> likes</small>
-                <div class="btns flex mt-1 gap-4">
-                    <a class="text-blue-500" href="/like/<%=post._id%>">
-                        <%=post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike"%>
-                    </a>
-                    <a class="text-zinc-500" href="/edit/<%=post._id%>">Edit</a>
 
-                </div>
+                    <div class="flex justify-between">
+                        <div class="btns flex mt-1 gap-4">
+                            <a class="text-blue-500" href="/like/<%=post._id%>">
+                                <%=post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike"%>
+                            </a>
+                            <a class="text-zinc-500" href="/edit/<%=post._id%>">Edit</a>
+        
+                        </div>
+                        <a class="text-red-500" href="/delete/<%=post._id%>">Delete</a>
+                    </div>
+             
                 </div>
 
               <% })%>

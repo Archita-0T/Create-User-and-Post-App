@@ -61,6 +61,11 @@ app.post('/update/:id', isLoggedIn, async (req,res)=>{
     res.redirect("/profile");
 })
 
+app.get('/delete/:id', isLoggedIn, async (req,res)=>{
+    let post = await postModel.findOneAndDelete({_id:req.params.id});
+    res.redirect("/profile");
+})
+
 app.post('/post', isLoggedIn, async (req,res)=>{
     let user = await userModel.findOne({email:req.user.email});
     let {content}=req.body;
