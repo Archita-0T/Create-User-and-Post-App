@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const flash = require('connect-flash');
 const expressSession = require('express-session');
-
-
+const path = require("path");
+const crypto = require("crypto");
+const upload = require('./config/multerconfig');
 
 const jwt = require('jsonwebtoken');
 const userModel = require('./models/user');
@@ -22,10 +23,22 @@ app.use(flash());
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname,"public")));
 app.use(cookieParser());
 
 app.get('/',(req,res)=>{
     res.render("index");
+})
+
+app.get('/profile/upload',(req,res)=>{
+    res.render("profileupload");
+})
+app.post('/upload',isLoggedIn, upload.single("image"), async (req,res)=>{
+   let user = await userModel.findOne({email: req.user.email});
+   user.profilepic = req.file.filename;
+   await user.save();
+   res.redirect("/profile");
+
 })
 app.get('/login',(req,res)=>{
     res.render("login");
